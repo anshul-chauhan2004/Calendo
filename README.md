@@ -107,7 +107,7 @@ Create `server/.env`:
 DATABASE_URL="your-neon-postgres-connection-string"
 PORT="4000"
 CLIENT_URL="http://localhost:5173"
-DEFAULT_USER_EMAIL="anshul@example.com"
+DEFAULT_USER_EMAIL="anch51004@gmail.com"
 ```
 
 ## Local Setup
@@ -157,7 +157,7 @@ npm run dev
 Seeded host user:
 
 - Name: `Anshul Chauhan`
-- Email: `anshul@example.com`
+- Email: `anch51004@gmail.com`
 - Timezone: `Asia/Kolkata`
 
 Seeded event types:
