@@ -1,7 +1,19 @@
+import { addDays } from "date-fns";
 import prismaPkg from "@prisma/client";
-import { buildSlots, formatSlotForClient, getDayOfWeekInTimezone, getUtcDateForTimezoneTime, slotsOverlap } from "../utils/time.js";
+import {
+  buildSlots,
+  formatSlotForClient,
+  getDayOfWeekInTimezone,
+  getUtcDateForTimezoneTime,
+  slotsOverlap,
+} from "../utils/time.js";
 
 const { BookingStatus } = prismaPkg;
+
+function getNextDateKey(dateKey) {
+  const nextDate = new Date(`${dateKey}T00:00:00.000Z`);
+  return addDays(nextDate, 1).toISOString().slice(0, 10);
+}
 
 export async function getAvailableSlotsForDate({ prismaClient, eventType, dateKey, timezone }) {
   const dayOfWeek = getDayOfWeekInTimezone(dateKey, timezone);
@@ -22,15 +34,17 @@ export async function getAvailableSlotsForDate({ prismaClient, eventType, dateKe
   }
 
   const dayStartUtc = getUtcDateForTimezoneTime(dateKey, "00:00", timezone);
-  const nextDayUtc = getUtcDateForTimezoneTime(dateKey, "23:59", timezone);
+  const nextDayUtc = getUtcDateForTimezoneTime(getNextDateKey(dateKey), "00:00", timezone);
 
   const bookings = await prismaClient.booking.findMany({
     where: {
-      eventTypeId: eventType.id,
+      hostUserId: eventType.userId,
       status: BookingStatus.SCHEDULED,
       startTimeUtc: {
-        gte: dayStartUtc,
-        lte: nextDayUtc,
+        lt: nextDayUtc,
+      },
+      endTimeUtc: {
+        gt: dayStartUtc,
       },
     },
   });

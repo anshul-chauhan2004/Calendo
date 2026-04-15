@@ -150,3 +150,25 @@ I will keep updating this file with:
 - Test commands
 
 This should make it easier for you to explain the project setup and local workflow if asked.
+
+## Host-Wide Slot Blocking Update
+
+Commands used while updating the backend slot-availability logic so all host bookings block overlapping slots:
+
+```bash
+sed -n '1,220p' server/src/services/slot.service.js
+sed -n '1,260p' server/src/services/public.service.js
+sed -n '1,240p' server/src/utils/time.js
+sed -n '1,260p' server/prisma/schema.prisma
+sed -n '1,220p' server/src/services/slot.service.js
+sed -n '90,180p' server/src/services/public.service.js
+npm run build
+tail -n 40 COMMAND_LOG.md
+```
+
+Purpose:
+
+- Inspect the existing slot calculation and public booking logic
+- Confirm the Prisma schema supports host-wide booking checks
+- Verify the frontend still builds cleanly after the backend change
+- Keep the command history updated for interview reference

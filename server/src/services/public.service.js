@@ -153,7 +153,7 @@ export async function createPublicBooking(payload) {
     async (tx) => {
       const overlappingBooking = await tx.booking.findFirst({
         where: {
-          eventTypeId: eventType.id,
+          hostUserId: eventType.user.id,
           status: "SCHEDULED",
           startTimeUtc: {
             lt: requestedEnd,
