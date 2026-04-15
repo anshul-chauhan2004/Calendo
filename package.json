@@ -1,0 +1,15 @@
+{
+  "name": "calendo",
+  "private": true,
+  "scripts": {
+    "dev:client": "npm run dev --prefix client",
+    "dev:server": "npm run dev --prefix server",
+    "build:client": "npm run build --prefix client",
+    "lint:client": "npm run lint --prefix client",
+    "prisma:generate": "npm run prisma:generate --prefix server",
+    "prisma:migrate": "npm run prisma:migrate --prefix server",
+    "prisma:push": "npm run prisma:push --prefix server",
+    "prisma:studio": "npm run prisma:studio --prefix server",
+    "db:seed": "npm run db:seed --prefix server"
+  }
+}
